@@ -1,3 +1,5 @@
+// Copyright 2016, ver. 0.001 by AKonia
+
 #ifndef __MATHEXPR_HPP__
 #define __MATHEXPR_HPP__
 
@@ -19,7 +21,7 @@ using std::queue;
 
 class MathExpr
 {
-public: // Service
+public: // Обслуживание
     class ExprException
     {
         string fullMsg;
@@ -33,7 +35,7 @@ public: // Service
             return fullMsg;
         }
     };
-private:
+private: // Данные с которыми работает вид
     string expr;
     bool exprValidationStatus;
     bool translated;
@@ -41,12 +43,17 @@ private:
     //vector
     vector<Variable> variables;
     vector<bool> isConstant;
-public:
+public: // Основные функции, с помощью которых происходит взаимотействие из вне
     MathExpr()
     {
         translated = false;
-        addConstant("e", 2.71);
+        addConstant("e", 2.71828);
+    #ifdef M_PI
+        addConstant("pi", M_PI);
+    #else
         addConstant("pi", 3.14159);
+    #endif
+
     }
     string getExpr()
     {
@@ -100,7 +107,10 @@ private:
 void MathExpr::loadExpr(const string &expr)
 {
     translated = false;
-    this->expr = expr;
+    if(expr != "")
+        this->expr = expr;
+    else
+        exprValidationStatus = false;
 }
 
 void MathExpr::translate()
@@ -131,13 +141,13 @@ void MathExpr::translate()
             delimSequence += expr[i];
         }
     }
-
     stack<string> exprOperators, values;
     LexType currType = UNKNOWN_TYPE,
             lastType = UNKNOWN_TYPE;
     do
     {
         currType = detectTokType(tokens.front()); // получили текущую лексему
+        //cout << "Current token is: " << tokens.front() << endl;
         switch(currType) // в соответствии с типом лексемы выбираем что делать
         {
             case OPERATION:
@@ -179,6 +189,8 @@ void MathExpr::translate()
 
             case CLOSE_BRACKET:
                 lastType = CLOSE_BRACKET;
+                if(exprOperators.empty())
+                    throw ExprException("No operators before CLOSE_BRACKET, possibly too much brackets",__LINE__);
                 while(detectTokType(exprOperators.top()) != OPEN_BRACKET)
                 {
                     if(isFunction(exprOperators.top()))
@@ -196,8 +208,6 @@ void MathExpr::translate()
                         values.push(left + " " + right + " " + exprOperators.top());
                     }
                     exprOperators.pop();
-                    if(exprOperators.empty())
-                        throw ExprException("Unexpected situation: to much closing braces", __LINE__);
                 }
                 exprOperators.pop();
                 break;
@@ -214,6 +224,7 @@ void MathExpr::translate()
         tokens.pop();
     }
     while(!tokens.empty());
+
     while(!exprOperators.empty() && !values.empty())
     {
         if(isFunction(exprOperators.top()))

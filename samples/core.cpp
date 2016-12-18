@@ -14,7 +14,7 @@ int main()
         exprCalc.loadExpr(str);
         exprCalc.loadVariable("x", 0);
         exprCalc.loadVariable("y", 3.14);
-        cout << exprCalc.compute() << endl;
+        cout << str << " = " << exprCalc.compute() << endl;
     }
     catch(MathExpr::ExprException &e)
     {
