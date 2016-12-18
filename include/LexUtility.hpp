@@ -3,10 +3,7 @@
 #include <cstring>
 #include <cmath>
 #include <cstdlib>
-#include <iostream>
 
-using std::cout;
-using std::endl;
 using std::string;
 
 const int qOfSupportedFunctions = 6;
@@ -27,8 +24,7 @@ string functions[qOfSupportedFunctions] =
     string("cos"),
     string("tan"),
     string("log"),
-    string("abs"),
-    string("unm")
+    string("abs")
 };
 
 string priorityList[qOfPriority] =
@@ -38,7 +34,6 @@ string priorityList[qOfPriority] =
     string("tan"),
     string("log"),
     string("abs"),
-    string("unm"),
     string("^"),
     string("*"),
     string("/"),
@@ -56,12 +51,12 @@ enum LexType
 {
     UNKNOWN_TYPE = 0,
     VARIABLE,
-    REAL_NUMBER,  // +
-    INT_NUMBER,   // +
+    REAL_NUMBER,
+    INT_NUMBER,
     CONSTANT,
-    OPERATION,    // +
-    OPEN_BRACKET, // +
-    CLOSE_BRACKET // +
+    OPERATION,
+    OPEN_BRACKET,
+    CLOSE_BRACKET
 };
 
 bool isVariable(char x)
