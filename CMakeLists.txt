@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8)
 
-project(TK9_calculation_with_queue)
+project(LabWork3_postfix_polish_notation)
 
 set(exename "sampleapp")
 
