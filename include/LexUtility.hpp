@@ -110,13 +110,7 @@ LexType detectTokType(string tok)
             return OPEN_BRACKET;
         if(strchr(closingBrackets, tok[0]))
             return CLOSE_BRACKET;
-        // if(tok[0] == 'e')
-        //     return CONSTANT;
     }
-    // if(tok == "pi")
-    // {
-    //     return CONSTANT;
-    // }
     if(isdigit(tok[0]))
     {
         LexType numericType = INT_NUMBER;
@@ -149,6 +143,7 @@ bool findValByName(string name, double &value)
     value = 1.0;
     return true;
 }
+
 double calculateFunc(string funcName, double l, double r)
 {
     if(!isFunction(funcName))
