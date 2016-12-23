@@ -35,8 +35,8 @@ string priorityList[qOfPriority] =
     string("log"),
     string("abs"),
     string("^"),
-    string("*"),
     string("/"),
+    string("*"),
     string("-"),
     string("+")
 };

@@ -115,6 +115,8 @@ void MathExpr::loadExpr(const string &expr)
 
 void MathExpr::translate()
 {
+    if(translated)
+        return;
     expr = "(" + expr + ")";
     queue<string> tokens;
     string delimSequence = "";
@@ -224,7 +226,9 @@ void MathExpr::translate()
         tokens.pop();
     }
     while(!tokens.empty());
-
+    
+    //if(exprOperators.top() == "(")
+    //    throw ExprException("No operators after OPEN_BRACKET, possibly too much brackets",__LINE__);
     while(!exprOperators.empty() && !values.empty())
     {
         if(isFunction(exprOperators.top()))
