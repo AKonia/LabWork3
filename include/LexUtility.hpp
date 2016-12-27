@@ -82,10 +82,10 @@ bool isHigherPriority(const string & lhs, const string & rhs)
 {
     for(int i = 0; i < qOfPriority; i++)
     {
-        if(priorityList[i] == lhs)
-            return true;
         if(priorityList[i] == rhs)
             return false;
+        if(priorityList[i] == lhs)
+            return true;
     }
 }
 
@@ -97,7 +97,7 @@ bool isFunction(string operation)
     return false;
 }
 
-LexType detectTokType(string tok)
+LexType detectTokType(const string tok)
 {
     size_t toklen = tok.length();
     if(toklen < 1)
@@ -136,12 +136,6 @@ LexType detectTokType(string tok)
         return VARIABLE;
     }
     return UNKNOWN_TYPE;
-}
-
-bool findValByName(string name, double &value)
-{
-    value = 1.0;
-    return true;
 }
 
 double calculateFunc(string funcName, double l, double r)
